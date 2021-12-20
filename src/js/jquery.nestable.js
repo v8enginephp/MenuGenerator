@@ -17,6 +17,10 @@ window.updateOutput = function (e) {
 
 var nestableList = $("#nestable > .dd-list");
 
+$(function () {
+    nestableList = $("#nestable > .dd-list");
+})
+
 /***************************************/
 
 
@@ -108,13 +112,15 @@ var editMenuItem = function () {
 
 /*************** Add ***************/
 
-var newIdCount = 1;
+
+function rand() {
+    return (Math.random() + 1).toString(36).substring(7);
+}
 
 var addToMenu = function (newName = false, newUrl = false, selector = false) {
     newName = !newName ? $("#addInputName").val() : newName;
     newUrl = !newUrl ? $("#addInputUrl").val() : newUrl;
-    nestableList = !selector ? nestableList : selector;
-    const newId = 'new-' + newIdCount;
+    const newId = 'new-' + rand();
 
     nestableList.append(
         '<li class="dd-item" ' +
@@ -134,8 +140,6 @@ var addToMenu = function (newName = false, newUrl = false, selector = false) {
         '</span>' +
         '</li>'
     );
-
-    newIdCount++;
 
     // update JSON
     updateOutput($('#nestable').data('output', $('#json-output')));
@@ -657,7 +661,7 @@ function generateItem(id, name, url, child) {
 
 let output = '';
 
-window.prt=function (data, owner = null) {
+window.prt = function (data, owner = null) {
     output += `<ol class="dd-list">`;
     for (const item of data) {
         if (typeof item === 'object')
